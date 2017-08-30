@@ -1,14 +1,9 @@
 package com.summer.core;
 
-import mySpring.utils.ConstantUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by 10033 on 2017/5/9.
- */
 
 /**
  * 获取相应类对象
@@ -19,12 +14,10 @@ public class GetClass {
 
     public static List<Class> getClassList(String key)
             throws IOException, ClassNotFoundException {//key = scan.package
-        //从常量工具类里获取
-        classpathPackageScanner=new ClasspathPackageScanner(ConstantUtil.PROPERTY_MAP.get(key));
-
-        List<String> list=classpathPackageScanner.getFullyQualifiedClassNameList();
-        List<Class> classList=new ArrayList<Class>();
-        for(String string:list) {
+        classpathPackageScanner = new ClasspathPackageScanner(ConstantUtil.PROPERTY_MAP.get(key));
+        List<String> list = classpathPackageScanner.getFullyQualifiedClassNameList();
+        List<Class> classList = new ArrayList<Class>();
+        for (String string : list) {
             classList.add(Class.forName(string));
         }
         return classList;

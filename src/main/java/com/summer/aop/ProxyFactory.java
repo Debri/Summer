@@ -1,13 +1,16 @@
-package com.summer.core;
+package com.summer.aop;
 
-import com.summer.adivce.IAdvice;
+import com.summer.aop.adivce.IAdvice;
 import com.summer.annotation.PointCut;
 
 import java.util.Map;
 
 /**
- * Created by 10033 on 2017/5/12.
- * 对Bean进行AOP操作
+ * Created by Liuqi on 2017/8/30
+ *
+ * @author: debri_liu@163.com
+ * @date: 2017/8/30.
+ * @since: v1.0.0
  */
 public class ProxyFactory {
     public static void makeProxyBean(Map<String, Object> map) {
@@ -20,13 +23,11 @@ public class ProxyFactory {
             Class classes=o.getClass();
             //判断是否有类注解
             if(classes.isAnnotationPresent(PointCut.class)) {
-
                 PointCut pointCut= (PointCut) classes.getAnnotation(PointCut.class);
                 String classPath=pointCut.value();
                 try {
                     IAdvice IAdvice = (IAdvice) Class.forName(classPath).newInstance();
-                    aopProxy.setClassAdvice(IAdvice);
-
+                    aopProxy.setAdvice(IAdvice);
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -34,7 +35,6 @@ public class ProxyFactory {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
-
             }
             map.put(key, aopProxy.getProxy(classes));
         }

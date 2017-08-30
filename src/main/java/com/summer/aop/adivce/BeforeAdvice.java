@@ -1,4 +1,4 @@
-package com.summer.adivce;
+package com.summer.aop.adivce;
 
 /**
  * Created by Liuqi
