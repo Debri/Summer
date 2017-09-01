@@ -1,4 +1,6 @@
-package com.summer.core;
+package com.summer.ioc;
+
+import com.summer.utils.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,16 +22,17 @@ public class ClasspathPackageScanner {
 
     /**
      * Construct an instance and specify the base package it should scan.
+     *
      * @param basePackage The base package to scan.
      */
     public ClasspathPackageScanner(String basePackage) {
         this.basePackage = basePackage;
         this.classLoader = getClass().getClassLoader();//获得类加载器
-
     }
 
     /**
      * Construct an instance with base package and class loader.
+     *
      * @param basePackage The base package to scan.
      * @param classLoader Use this class load to locate the package.
      */
@@ -43,8 +46,7 @@ public class ClasspathPackageScanner {
      * and its sub-package.
      *
      * @return A list of fully qualified names.
-     * @throws IOException
-     * IoC的载入
+     * @throws IOException IoC的载入
      */
     public List<String> getFullyQualifiedClassNameList() throws IOException {
         return doScan(basePackage, new ArrayList());
@@ -54,23 +56,21 @@ public class ClasspathPackageScanner {
      * Actually perform the scanning procedure.
      *
      * @param basePackage
-     * @param nameList A list to contain the result.
+     * @param nameList    A list to contain the result.
      * @return A list of fully qualified names.
-     *
      * @throws IOException
      */
     private List<String> doScan(String basePackage, List<String> nameList) throws IOException {
         // replace dots with splashes
-        String splashPath = StringUtil.dotToSplash(basePackage);
+        String splashPath = StringUtils.dotToSplash(basePackage);
 
         // get file path
         URL url = classLoader.getResource(splashPath);
 
-        String filePath = StringUtil.getRootPath(url);
+        String filePath = StringUtils.getRootPath(url);
 
         List<String> names;
         if (isJarFile(filePath)) {
-
             names = readFromJarFile(filePath, splashPath);
         } else {
 
@@ -92,7 +92,7 @@ public class ClasspathPackageScanner {
     private String toFullyQualifiedName(String shortName, String basePackage) {
         StringBuilder sb = new StringBuilder(basePackage);
         sb.append('.');
-        sb.append(StringUtil.trimExtension(shortName));
+        sb.append(StringUtils.trimSuffix(shortName));
 
         return sb.toString();
     }
@@ -133,15 +133,4 @@ public class ClasspathPackageScanner {
     private boolean isJarFile(String name) {
         return name.endsWith(".jar");
     }
-
-
-    /*public static void main(String[] args) throws Exception {
-        ClasspathPackageScanner scan =
-                new ClasspathPackageScanner("temp");
-        List<String> list=scan.getFullyQualifiedClassNameList();
-        for(String s:list) {
-            System.out.println(s);
-        }
-    }*/
-
 }

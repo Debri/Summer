@@ -1,4 +1,4 @@
-package com.summer.annotation;
+package com.summer.ioc.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

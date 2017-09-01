@@ -2,6 +2,7 @@ package com.summer.core;
 
 
 import com.summer.aop.ProxyFactory;
+import com.summer.ioc.AutoInjection;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 
 public class BeanFactory {
-    public static Map<String, Object> map = new HashMap();
+    public static Map<String, Object> map = new HashMap<String, Object>();
     private static final String KEY = "base.scan.package";
 
     //初始化IoC容器

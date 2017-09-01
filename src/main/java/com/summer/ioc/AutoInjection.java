@@ -1,7 +1,8 @@
-package com.summer.core;
+package com.summer.ioc;
 
-import com.summer.annotation.Autowired;
-import com.summer.annotation.MyBean;
+import com.summer.ioc.annotation.Autowired;
+import com.summer.ioc.annotation.MyBean;
+import com.summer.core.GetClass;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -19,12 +20,12 @@ import java.util.Map;
 public class AutoInjection {
     public static void automaticInjection(String key, Map mmp) {
         try {
-           // List<Class> list = GetClass.getClassList(key);
+            // List<Class> list = GetClass.getClassList(key);
             List<Class> list = GetClass.getClassList(key);
 
             for (Class classes : list) {
                 //注册
-                Map<String, Object> judgeMap = new HashMap();
+                Map<String, Object> judgeMap = new HashMap<String, Object>();
                 //注入
                 injection(mmp, classes, judgeMap);
             }
@@ -90,8 +91,8 @@ public class AutoInjection {
             fieldExist = field.isAnnotationPresent(Autowired.class);
 
             if (fieldExist) {
-                String classtype = field.getGenericType().toString();
-                Class fieldClass = Class.forName(classtype.substring(6));
+                String classType = field.getGenericType().toString();
+                Class fieldClass = Class.forName(classType.substring(6));
                 field.setAccessible(true);
                 //强制设置值 破坏了封装性
                 field.setAccessible(true);
@@ -99,7 +100,6 @@ public class AutoInjection {
                 if (fieldClass.isAnnotationPresent(MyBean.class)) { //该属性依赖其它Bean
                     MyBean tbean = (MyBean) fieldClass.getAnnotation(MyBean.class);
                     field.set(obj, mmp.get(tbean.value()));
-
                 } else { //该属性不依赖其它Bean
                     Object object = fieldClass.newInstance();
                     field.set(obj, object);
@@ -107,6 +107,5 @@ public class AutoInjection {
             }
         }
     }
-
 }
 

@@ -1,5 +1,4 @@
-package com.summer.annotation;
-
+package com.summer.aop.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -10,12 +9,16 @@ import java.lang.annotation.Target;
 
 /**
  * Created by Liuqi
- * Date: 2017/8/28.
+ *
+ * @date: 2017/8/28.
+ * @author: liuqi
+ * @version: v1.0.0
  */
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-public @interface MyBean {
+public @interface PointCut {
+
     String value();
 }

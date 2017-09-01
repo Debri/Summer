@@ -1,7 +1,7 @@
 package com.summer.aop;
 
 import com.summer.aop.adivce.IAdvice;
-import com.summer.annotation.PointCut;
+import com.summer.aop.annotation.PointCut;
 
 import java.util.Map;
 
@@ -16,9 +16,7 @@ public class ProxyFactory {
     public static void makeProxyBean(Map<String, Object> map) {
 
         for(String key:map.keySet()) {
-
             AopProxy aopProxy=new AopProxy();
-
             Object o=map.get(key);
             Class classes=o.getClass();
             //判断是否有类注解
